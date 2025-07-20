@@ -25,14 +25,14 @@ func UploadHandler(log *log.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseMultipartForm(10 << 20); err != nil {
 			log.Println("Ошибка парсинга:", err)
-			http.Error(w, "Ошибка обработки:", http.StatusInternalServerError)
+			http.Error(w, "Ошибка обработки формы", http.StatusBadRequest)
 			return
 		}
 
-		file, _, err := r.FormFile("file")
+		file, header, err := r.FormFile("file")
 		if err != nil {
-			log.Println("Ошибка извлечения:", err)
-			http.Error(w, "Ошибка загрузки:", http.StatusInternalServerError)
+			log.Println("Ошибка извлечения файла:", err)
+			http.Error(w, "Ошибка загрузки файла", http.StatusBadRequest)
 			return
 		}
 		defer file.Close()
@@ -47,20 +47,20 @@ func UploadHandler(log *log.Logger) http.HandlerFunc {
 		inputStr := string(content)
 		result, err := service.Analysis(inputStr)
 		if err != nil {
-			log.Println("Ошибка определения содержимого:", err)
+			log.Println("Ошибка анализа:", err)
 			http.Error(w, "Ошибка обработки данных", http.StatusInternalServerError)
 			return
 		}
 
-		filename := "result:" + time.Now().UTC().Format("20060102_150405") + filepath.Ext("file")
+		filename := "result_" + time.Now().UTC().Format("20060102_150405") + filepath.Ext(header.Filename)
 
 		err = os.WriteFile(filename, []byte(result), 0644)
 		if err != nil {
 			log.Println("Ошибка записи файла:", err)
-			http.Error(w, "Ошибка сохранения", http.StatusInternalServerError)
+			http.Error(w, "Ошибка сохранения файла", http.StatusInternalServerError)
 			return
 		}
 
-		w.Write([]byte(filename))
+		w.Write([]byte("Файл успешно сохранен: " + filename))
 	}
 }
