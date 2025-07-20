@@ -26,7 +26,7 @@ func Analysis(str string) (string, error) {
 	} else {
 		result := morse.ToMorse(str)
 		if strings.TrimSpace(result) == "" {
-			return "", errors.New("Не удалось конвертировать текст в Morse")
+			return "", errors.New("Не удалось конвертировать текст в код Morse")
 		}
 		return result, nil
 	}
