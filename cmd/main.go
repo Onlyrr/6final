@@ -4,16 +4,14 @@ import (
 	"log"
 	"os"
 
-	"github.com/Yandex-Practicum/go1fl-sprint6-final/internal/server"
+	"github.com/Yandex-Practicum/go1fl-sprint6-final/server"
 )
 
 func main() {
-	logger := log.New(os.Stdout, "app: ", log.LstdFlags)
+	logger := log.New(os.Stdout, "[http] ", log.LstdFlags)
+	srv := server.NewServer(logger)
 
-	appServer := server.NewServer(logger)
-
-	logger.Println("Запуск сервера")
-	if err := appServer.HTTPServer.ListenAndServe(); err != nil {
-		logger.Fatal("Ошибка запуска сервера:", err)
+	if err := srv.Run(); err != nil {
+		logger.Fatalf("Ошибка запуска сервера: %v", err)
 	}
 }
