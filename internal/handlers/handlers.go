@@ -11,9 +11,9 @@ import (
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	filePath := `d:\Go\6final\index.html`
-	http.ServeFile(w, r, filePath)
-	//http.ServeFile(w, r, "6final/index.html")
+	//filePath := `d:\Go\6final\index.html`
+	//http.ServeFile(w, r, filePath)
+	http.ServeFile(w, r, "./index.html")
 }
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
