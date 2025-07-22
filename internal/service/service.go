@@ -18,7 +18,6 @@ func isMorseString(input string) bool {
 
 func Analysis(str string) (string, error) {
 	strTrim := strings.TrimSpace(str)
-
 	if strTrim == "" {
 		return "", errors.New("пустая строка")
 	}

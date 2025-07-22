@@ -11,7 +11,7 @@ import (
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "index.html")
+	http.ServeFile(w, r, "6final/index.html")
 }
 
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +20,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, header, err := r.FormFile("file")
+	file, header, err := r.FormFile("6final/internal/handlers/handlers.go")
 	if err != nil {
 		http.Error(w, "Ошибка чтения файла", http.StatusInternalServerError)
 		return
