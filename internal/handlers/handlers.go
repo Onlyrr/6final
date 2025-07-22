@@ -34,7 +34,7 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputStr := string(data)
-	result, err := service.AutoDetectAndConvert(inputStr)
+	result, err := service.Analysis(inputStr)
 	if err != nil {
 		http.Error(w, "Ошибка обработки данных: "+err.Error(), http.StatusInternalServerError)
 		return
