@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	logger := log.New(os.Stdout, "[http] ", log.LstdFlags)
+	logger := log.New(os.Stdout, "", log.LstdFlags)
 	srv := server.NewServer(logger)
 
 	if err := srv.Run(); err != nil {
