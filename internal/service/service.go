@@ -1,42 +1,32 @@
 package service
 
 import (
-	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/Yandex-Practicum/go1fl-sprint6-final/pkg/morse"
 )
 
-func isMorseString(input string) bool {
-	for _, ch := range input {
-		if ch != '.' && ch != '-' && ch != ' ' && ch != '\n' && ch != '\r' && ch != '\t' {
-			return false
+func isMorse(s string) bool {
+	count := 0
+	for _, v := range s {
+		if v == '.' || v == '-' || v == ' ' {
+			count++
 		}
 	}
-	return true
+
+	return count == len([]rune(s))
 }
 
-func Analysis(str string) (string, error) {
-	strTrim := strings.TrimSpace(str)
-	if strTrim == "" {
-		return "", errors.New("пустая строка")
-	}
-	if !strings.Contains(strTrim, " ") && !strings.Contains(strTrim, "\n") && !strings.Contains(strTrim, "\r") && !strings.Contains(strTrim, "\t") {
-		// Нет пробелов - возвращаем исходный текст
-		return str, nil
+func Analysis(s string) (string, error) {
+	text := strings.TrimSpace(s)
+	if len(text) == 0 {
+		return "", fmt.Errorf("передана пустая строка")
 	}
 
-	if isMorseString(strTrim) {
-		result := morse.ToText(strTrim)
-		if strings.TrimSpace(result) == "" {
-			return "", errors.New("не удалось распознать код")
-		}
-		return result, nil
-	} else {
-		result := morse.ToMorse(strTrim)
-		if strings.TrimSpace(result) == "" {
-			return "", errors.New("не удалось конвертировать текст в Morse")
-		}
-		return result, nil
+	if isMorse(text) {
+		return morse.ToText(text), nil
 	}
+
+	return morse.ToMorse(text), nil
 }
