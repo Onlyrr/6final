@@ -21,6 +21,10 @@ func Analysis(str string) (string, error) {
 	if strTrim == "" {
 		return "", errors.New("пустая строка")
 	}
+	if !strings.Contains(strTrim, " ") && !strings.Contains(strTrim, "\n") && !strings.Contains(strTrim, "\r") && !strings.Contains(strTrim, "\t") {
+		// Нет пробелов - возвращаем исходный текст
+		return str, nil
+	}
 
 	if isMorseString(strTrim) {
 		result := morse.ToText(strTrim)
