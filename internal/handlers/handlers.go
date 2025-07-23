@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -50,4 +51,8 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("Результат:\n" + result))
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error writing: %v", err), http.StatusInternalServerError)
+		return
+	}
 }

@@ -1,32 +1,38 @@
 package service
 
 import (
-	"fmt"
+	"errors"
 	"strings"
 
 	"github.com/Yandex-Practicum/go1fl-sprint6-final/pkg/morse"
 )
 
-func isMorse(s string) bool {
-	count := 0
-	for _, v := range s {
-		if v == '.' || v == '-' || v == ' ' {
-			count++
+func isMorseString(input string) bool {
+	for _, ch := range input {
+		if ch != '.' && ch != '-' && ch != ' ' {
+			return false
 		}
 	}
-
-	return count == len([]rune(s))
+	return true
 }
 
-func Analysis(s string) (string, error) {
-	text := strings.TrimSpace(s)
-	if len(text) == 0 {
-		return "", fmt.Errorf("передана пустая строка")
+func Analysis(str string) (string, error) {
+	strTrim := strings.TrimSpace(str)
+	if strTrim == "" {
+		return "", errors.New("пустая строка")
 	}
 
-	if isMorse(text) {
-		return morse.ToText(text), nil
+	if isMorseString(strTrim) {
+		result := morse.ToText(strTrim)
+		if strings.TrimSpace(result) == "" {
+			return "", errors.New("не удалось распознать код")
+		}
+		return result, nil
+	} else {
+		result := morse.ToMorse(strTrim)
+		if strings.TrimSpace(result) == "" {
+			return "", errors.New("не удалось конвертировать текст в Morse")
+		}
+		return result, nil
 	}
-
-	return morse.ToMorse(text), nil
 }
