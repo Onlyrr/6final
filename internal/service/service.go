@@ -9,7 +9,7 @@ import (
 
 func isMorseString(input string) bool {
 	for _, ch := range input {
-		if ch != '.' && ch != '-' && ch != ' ' {
+		if ch != '.' && ch != '-' && ch != ' ' && ch != '\n' && ch != '\r' && ch != '\t' {
 			return false
 		}
 	}
@@ -31,7 +31,7 @@ func Analysis(str string) (string, error) {
 	} else {
 		result := morse.ToMorse(strTrim)
 		if strings.TrimSpace(result) == "" {
-			return "", errors.New("не удалось конвертировать текст в Morse")
+			return "", errors.New("не удалось конвертировать текст в Морзе")
 		}
 		return result, nil
 	}

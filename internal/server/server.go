@@ -32,8 +32,3 @@ func NewServer(log *log.Logger) *MyServer {
 		Server: srv,
 	}
 }
-
-func (s *MyServer) Run() error {
-	s.Log.Println("Сервер запущен")
-	return s.Server.ListenAndServe()
-}
